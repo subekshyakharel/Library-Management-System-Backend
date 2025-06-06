@@ -1,0 +1,5 @@
+#APi Setup
+@rootAPI = http://localhost:8000
+
+### Check the server status
+GET {{rootAPI}}
