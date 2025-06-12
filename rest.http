@@ -3,3 +3,25 @@
 
 ### Check the server status
 GET {{rootAPI}}
+
+
+### auth post new user
+POST {{rootAPI}}/api/v1/auth/register
+Content-Type: application/json
+
+{
+ "fName": "subekshya",
+ "lName": "kharel",
+ "email": "sube@aomb.com",
+ "phone": "456894569",
+ "password": "123"
+}
+
+### post to activate user 
+POST {{rootAPI}}/api/v1/auth/activate-user
+Content-Type: application/json
+
+{
+ "sessionId": "skdhf98p9w9e",
+ "t": "djhf"
+}
