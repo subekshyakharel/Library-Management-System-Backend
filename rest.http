@@ -1,5 +1,5 @@
 #APi Setup
-@rootAPI = http://localhost:8000
+@rootAPI = http://localhost:8001
 
 ### Check the server status
 GET {{rootAPI}}
@@ -12,8 +12,8 @@ Content-Type: application/json
 {
  "fName": "subekshya",
  "lName": "kharel",
- "email": "sube@aomb.com",
- "phone": "456894569",
+ "email": "i@v.com",
+ "phone": "45684569",
  "password": "123"
 }
 
@@ -22,6 +22,7 @@ POST {{rootAPI}}/api/v1/auth/activate-user
 Content-Type: application/json
 
 {
- "sessionId": "skdhf98p9w9e",
- "t": "djhf"
+    "sessionId":"684e85d36b8c1f2abb23fc27",
+    "t":"f32fb06c-0d55-4afc-aeee-5d2c21aae9af"
 }
+

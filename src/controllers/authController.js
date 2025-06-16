@@ -1,7 +1,13 @@
 import { responseClient } from "../middlewares/responseClient.js";
-import { createNewSession } from "../models/session/SessionModel.js";
-import { createNewUser } from "../models/user/UserModel.js";
-import { userActivationUrlEmail } from "../services/email/emailService.js";
+import {
+  createNewSession,
+  deleteSession,
+} from "../models/session/SessionModel.js";
+import { createNewUser, updateUserActive } from "../models/user/UserModel.js";
+import {
+  userActivatedNotificationEmail,
+  userActivationUrlEmail,
+} from "../services/email/emailService.js";
 import { hashPassword } from "../utils/bcrypt.js";
 import { v4 as uuidv4 } from "uuid";
 
@@ -55,10 +61,31 @@ export const insertNewUser = async (req, res, next) => {
 export const activateUser = async (req, res, next) => {
   try {
     const { sessionId, t } = req.body;
-    console.log(sessionId, t);
+    // console.log(sessionId, t);
 
-    const message = "TODO activate user";
-    return responseClient({ req, res, message });
+    const session = await deleteSession({
+      _id: sessionId,
+      token: t,
+    });
+
+    if (session?._id) {
+      //update user to active
+      const user = await updateUserActive(
+        { email: session.association },
+        { status: "active" }
+      );
+
+      if (user?._id) {
+        //respond
+        //send email
+        userActivatedNotificationEmail({ email: user.email, name: user.fName });
+        const message = "Your account has been activated, you may login now!";
+        return responseClient({ req, res, message });
+      }
+    }
+    const message = "Invalid link or token expired!";
+    const statusCode = 400;
+    responseClient({ req, res, message, statusCode });
   } catch (error) {
     next(error);
   }
