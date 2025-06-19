@@ -12,7 +12,7 @@ Content-Type: application/json
 {
  "fName": "subekshya",
  "lName": "kharel",
- "email": "i@v.com",
+ "email": "i@z.com",
  "phone": "45684569",
  "password": "123"
 }
@@ -25,4 +25,22 @@ Content-Type: application/json
     "sessionId":"684e85d36b8c1f2abb23fc27",
     "t":"f32fb06c-0d55-4afc-aeee-5d2c21aae9af"
 }
+
+### Login user  
+POST {{rootAPI}}/api/v1/auth/login
+Content-Type: application/json
+
+{
+    "email":"i@z.com",
+    "password":"123"
+}
+
+### get user  profile
+GET  {{rootAPI}}/api/v1/users/profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImlAei5jb20iLCJpYXQiOjE3NTAxNzMzNzQsImV4cCI6MTc1MDE3NDI3NH0.m6kGPyK8ym0cpRXXTgA1JiREDJAEs5CxIb9fbtoavig
+
+### get user  profile
+GET  {{rootAPI}}/api/v1/auth/renew-jwt
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImlAei5jb20iLCJpYXQiOjE3NTAyNTEyNTIsImV4cCI6MTc1Mjg0MzI1Mn0.iC-dJknIO55crdBEYNwGBf_9Mev9Ljge50Vpngm9kt0
+
 

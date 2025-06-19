@@ -13,7 +13,9 @@ app.use(morgan("dev"));
 app.use(express.json());
 
 import authRoute from "./src/routes/authRoute.js";
+import userRoute from "./src/routes/userRoute.js";
 app.use("/api/v1/auth", authRoute);
+app.use("/api/v1/users", userRoute);
 
 //server status
 import { responseClient } from "./src/middlewares/responseClient.js";

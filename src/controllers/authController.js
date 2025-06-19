@@ -1,15 +1,22 @@
+import { compare } from "bcryptjs";
 import { responseClient } from "../middlewares/responseClient.js";
 import {
   createNewSession,
+  deleteManySession,
   deleteSession,
 } from "../models/session/SessionModel.js";
-import { createNewUser, updateUserActive } from "../models/user/UserModel.js";
+import {
+  createNewUser,
+  getUserByMail,
+  updateUserActive,
+} from "../models/user/UserModel.js";
 import {
   userActivatedNotificationEmail,
   userActivationUrlEmail,
 } from "../services/email/emailService.js";
-import { hashPassword } from "../utils/bcrypt.js";
+import { comparePassword, hashPassword } from "../utils/bcrypt.js";
 import { v4 as uuidv4 } from "uuid";
+import { getjwts } from "../utils/jwt.js";
 
 export const insertNewUser = async (req, res, next) => {
   try {
@@ -86,6 +93,55 @@ export const activateUser = async (req, res, next) => {
     const message = "Invalid link or token expired!";
     const statusCode = 400;
     responseClient({ req, res, message, statusCode });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const loginUser = async (req, res, next) => {
+  try {
+    const { password, email } = req.body;
+    console.log(password, email);
+
+    //get user by email
+    const user = await getUserByMail(email);
+
+    if (user?._id) {
+      console.log(user);
+      // compare password
+      const isMatched = comparePassword(password, user.password);
+      if (isMatched) {
+        console.log("User Authenticated");
+        //create jwts
+        const jwts = await getjwts(email);
+        //responsejwts
+        return responseClient({
+          req,
+          res,
+          message: "Logged in successfully!",
+          payload: jwts,
+        });
+      }
+    }
+
+    //
+    const message = "Invalid login details";
+    const statusCode = 401;
+    responseClient({ req, res, next, message, statusCode });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const logoutUser = async (req, res, next) => {
+  try {
+    //get the token
+    const { email } = req.userInfo;
+    //update refreshJWT to ""
+    await updateUserActive({ email }, { refreshJWT: "" });
+    //remove the accessJWT from session table
+    await deleteManySession({ association: email });
+    responseClient({ req, res, message: "loged out successfully!" });
   } catch (error) {
     next(error);
   }
