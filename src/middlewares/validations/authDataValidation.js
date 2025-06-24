@@ -2,6 +2,7 @@ import {
   EMAIL_REQ,
   FNAME_REQ,
   LNAME_REQ,
+  OTP,
   PASSWORD,
   PASSWORD_REQ,
   PHONE_REQ,
@@ -9,7 +10,6 @@ import {
   TOKEN_REQ,
 } from "./joiConst.js";
 import { validateData } from "./joiVaidation.js";
-import Joi from "joi";
 
 export const newUserDataValidation = (req, res, next) => {
   const obj = {
@@ -34,6 +34,15 @@ export const loginDataValidation = (req, res, next) => {
   const obj = {
     email: EMAIL_REQ,
     password: PASSWORD_REQ,
+  };
+  validateData({ req, res, next, obj });
+};
+
+export const resetPasswordValidation = (req, res, next) => {
+  const obj = {
+    email: EMAIL_REQ,
+    password: PASSWORD_REQ,
+    otp: OTP,
   };
   validateData({ req, res, next, obj });
 };

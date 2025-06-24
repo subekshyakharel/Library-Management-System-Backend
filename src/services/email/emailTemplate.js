@@ -22,6 +22,7 @@ Regards,
 ---`, // HTML body
   };
 };
+
 export const userActivatedNotificationTemplate = async ({ email, name }) => {
   return {
     from: `"Local Library" <${process.env.SMTP_EMAIL}>`, //sender address
@@ -32,6 +33,47 @@ export const userActivatedNotificationTemplate = async ({ email, name }) => {
 <br/>
 <br/>
 <p>Your account is active to use. You may go and sign in now.</p>
+<br/>
+<br/>
+
+Regards, 
+---`, // HTML body
+  };
+};
+
+export const passwordResetOTPSendTemplate = async ({ email, name, otp }) => {
+  return {
+    from: `"Local Library" <${process.env.SMTP_EMAIL}>`, //sender address
+    to: email, //list of reciever address
+    subject: "Your OTP to reset the password.", //subject line
+    text: `Hello ${name}, Here is your OTP to reset the password. This otp will expires in 5min. OTP is ${otp}`, // plain‑text body
+    html: `<p>Hello ${name}</p>
+<br/>
+<br/>
+<p>Here is your OTP to reset the password. This otp will expires in 5min.</p>
+<br/>
+<br/>
+<p>OTP is ${otp} </p>
+<br/>
+<br/>
+
+Regards, 
+---`, // HTML body
+  };
+};
+export const userPasswordResetNotificationTemplate = async ({
+  email,
+  name,
+}) => {
+  return {
+    from: `"Local Library" <${process.env.SMTP_EMAIL}>`, //sender address
+    to: email, //list of reciever address
+    subject: "Your password has been reset.", //subject line
+    text: `Hello ${name}, Your password has been updated you may login now. If it's not you the change your password`, // plain‑text body
+    html: `<p>Hello ${name}</p>
+<br/>
+<br/>
+<p>Your password has been reset.</p>
 <br/>
 <br/>
 

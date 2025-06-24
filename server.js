@@ -1,6 +1,6 @@
 import express from "express";
 const app = express();
-const PORT = process.env.PORT || 8001;
+const PORT = process.env.PORT || 8000;
 
 // connnect db
 import { dbConnect } from "./src/config/dbConfig.js";
@@ -14,8 +14,10 @@ app.use(express.json());
 
 import authRoute from "./src/routes/authRoute.js";
 import userRoute from "./src/routes/userRoute.js";
+import bookRoute from "./src/routes/bookRoute.js";
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/users", userRoute);
+app.use("/api/v1/books", bookRoute);
 
 //server status
 import { responseClient } from "./src/middlewares/responseClient.js";

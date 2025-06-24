@@ -31,6 +31,23 @@ export const userAuthMiddleware = async (req, res, next) => {
 
   responseClient({ req, res, message, statusCode: 401 });
 };
+
+//check the user role admin
+export const adminAuthMidlleware = (req, res, next) => {
+  try {
+    req.userInfo.role = "admin"
+      ? next()
+      : responseClient({
+          req,
+          res,
+          message: "You donot have access to this resourse",
+          statusCode: 403,
+        });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const renewAccessJWTMiddleware = async (req, res, next) => {
   const { authorization } = req.headers;
   let message = "Unauthorized";

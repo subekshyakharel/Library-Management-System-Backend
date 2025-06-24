@@ -1,9 +1,9 @@
-import { compare } from "bcryptjs";
 import { responseClient } from "../middlewares/responseClient.js";
 import {
   createNewSession,
   deleteManySession,
   deleteSession,
+  getSession,
 } from "../models/session/SessionModel.js";
 import {
   createNewUser,
@@ -11,12 +11,15 @@ import {
   updateUserActive,
 } from "../models/user/UserModel.js";
 import {
+  passwordResetOTPSend,
   userActivatedNotificationEmail,
   userActivationUrlEmail,
+  userPasswordResetNotificationEmail,
 } from "../services/email/emailService.js";
 import { comparePassword, hashPassword } from "../utils/bcrypt.js";
 import { v4 as uuidv4 } from "uuid";
 import { getjwts } from "../utils/jwt.js";
+import { generateRandomOtp } from "../utils/generateRandomOtp.js";
 
 export const insertNewUser = async (req, res, next) => {
   try {
@@ -142,6 +145,69 @@ export const logoutUser = async (req, res, next) => {
     //remove the accessJWT from session table
     await deleteManySession({ association: email });
     responseClient({ req, res, message: "loged out successfully!" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const generateOTP = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    //get user by email
+    const user = typeof email === "string" ? await getUserByMail(email) : null;
+    if (user?._id) {
+      //generate otp
+      const otp = generateRandomOtp();
+      console.log(otp);
+
+      //store session in db
+      const session = await createNewSession({
+        token: otp,
+        association: email,
+        expire: new Date(Date.now() + 1000 * 60 * 2),
+      });
+      if (session?._id) {
+        console.log(session);
+        //send otp to user email
+        const info = await passwordResetOTPSend({
+          email,
+          name: user.fName,
+          otp,
+        });
+
+        console.log(info);
+      }
+
+      return responseClient({ req, res, message: "Otp is sent to your email" });
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const resetPassword = async (req, res, next) => {
+  try {
+    const { email, password, otp } = req.body;
+    const session = await getSession({
+      token: otp,
+      association: email,
+    });
+    console.log(session);
+
+    if (session?._id) {
+      const hashedPass = hashPassword(password);
+      const user = await updateUserActive({ email }, { password: hashedPass });
+      console.log(user);
+      if (user?._id) {
+        await userPasswordResetNotificationEmail({ name: user.fName, email });
+        return responseClient({
+          req,
+          res,
+          message: "Your password has been rest you may login now!",
+        });
+      }
+    }
+    responseClient({ req, res, statusCode: 400, message: "Invalid details!" });
   } catch (error) {
     next(error);
   }

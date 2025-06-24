@@ -1,5 +1,5 @@
 #APi Setup
-@rootAPI = http://localhost:8001
+@rootAPI = http://localhost:8000
 
 ### Check the server status
 GET {{rootAPI}}
@@ -32,7 +32,7 @@ Content-Type: application/json
 
 {
     "email":"i@z.com",
-    "password":"123"
+    "password":"Subekshya@123"
 }
 
 ### get user  profile
@@ -43,4 +43,37 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImlAei5jb
 GET  {{rootAPI}}/api/v1/auth/renew-jwt
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImlAei5jb20iLCJpYXQiOjE3NTAyNTEyNTIsImV4cCI6MTc1Mjg0MzI1Mn0.iC-dJknIO55crdBEYNwGBf_9Mev9Ljge50Vpngm9kt0
 
+### ggeneraet otp
+POST  {{rootAPI}}/api/v1/auth/otp
+Content-Type: application/json
 
+{
+    "email": "i@z.com"
+}
+
+### reset password
+POST  {{rootAPI}}/api/v1/auth/reset-password
+Content-Type: application/json
+
+{
+    "email": "i@z.com",
+    "password":"321",
+    "otp" : 7466
+}
+
+#### books
+
+### get books
+POST {{rootAPI}}/api/v1/books
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImlAei5jb20iLCJpYXQiOjE3NTA3NzE4MTYsImV4cCI6MTc1MDg1ODIxNn0.qZomVSeSCq3MpIM6omDddg8T0R08mx-gPTUH-FJR-0A
+
+{
+  "title": "The Alchemist",
+  "year":2008,
+  "author": "Paulo Coelho",
+  "imgUrl": "https://example.com/images/the-alchemist.jpg",
+  "isbn": "9780061122",
+  "genre": "Fiction",
+  "description": "something"
+}
