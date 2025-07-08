@@ -17,7 +17,14 @@ const bookSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    imageList: [{ type: String, default: [] }],
     isbn: {
+      type: String,
+      unique: true,
+      index: 1,
+      required: true,
+    },
+    slug: {
       type: String,
       unique: true,
       index: 1,
@@ -37,6 +44,10 @@ const bookSchema = new mongoose.Schema(
     },
     averageRating: {
       type: Number,
+    },
+    expectedAvailable: {
+      type: Date,
+      default: null,
     },
     status: {
       type: String,

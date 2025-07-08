@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon --env-file=.env server.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "import-book":"nodemon --env-file=.env ./src/seeds/bookSeeds/importData.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
@@ -16,7 +17,9 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.15.1",
     "morgan": "^1.10.0",
+    "multer": "^2.0.1",
     "nodemailer": "^7.0.3",
+    "slugify": "^1.6.6",
     "uuid": "^11.1.0"
   }
 }

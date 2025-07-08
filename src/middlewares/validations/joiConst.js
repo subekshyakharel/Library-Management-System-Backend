@@ -29,6 +29,9 @@ export const SHORT_STR_REQ = SHORT_STR.required();
 export const LONG_STR = Joi.string().min(1).max(5000);
 export const LONG_STR_REQ = LONG_STR.required();
 
+export const STR_ARRAY = Joi.array().items(Joi.string());
+export const STR_ARRAY_REQ = STR_ARRAY.required();
+
 export const YEAR = Joi.number()
   .integer()
   .min(1901)
@@ -39,3 +42,12 @@ export const ISBN = Joi.string()
   .pattern(/^\d{10}$|^\d{13}$/)
   .messages({ "string.pattern.base": "ISBN is not in the valid format" });
 export const ISBN_REQ = ISBN.required();
+
+export const _ID = Joi.string();
+export const _ID_REQ = _ID.required();
+
+export const STATUS = Joi.string().valid("active", "inactive");
+export const STATUS_REQ = STATUS.required();
+
+export const EXPECTEDAVAILABLE = Joi.date().allow(null, "");
+export const EXPECTEDAVAILABLE_REQ = EXPECTEDAVAILABLE.required();
