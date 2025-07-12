@@ -84,7 +84,32 @@ GET  {{rootAPI}}/api/v1/books
 ### get a single public books
 GET  {{rootAPI}}/api/v1/books/public/digital-mirage
 
-### get all books
+### get all books for admin
 GET  {{rootAPI}}/api/v1/books/admin
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImlAei5jb20iLCJpYXQiOjE3NTA3NzYzMTksImV4cCI6MTc1MDg2MjcxOX0.ivTt1F4o9E16-DbMdK2nKB4Z-rG1uF03TholNAiR4CE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImlAei5jb20iLCJpYXQiOjE3NTIyMzM4NjAsImV4cCI6MTc1MjMyMDI2MH0.DHigBZnn_lEEEjuO2WG_v9x3CUczJDZ_5sSqJxHFLdM
+
+### =============borrow Api========
+### insert borrowBook
+POST {{rootAPI}}/api/v1/borrow
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImlAei5jb20iLCJpYXQiOjE3NTIyMzcyNzEsImV4cCI6MTc1MjMyMzY3MX0.CfjJx6RxCOthfq7OgUKW6Az7p6sHPhFKMxFf2WCog2w
+
+[
+    {
+  "bookId":"686a699be8bd98d37c6d0357",
+  "thumbnail":"public\\img\\1751987777223-387647199-Screenshot 2025-05-31 170754.png",
+  "bookTitle": "Deep Space"
+}
+]
+
+
+### return book
+PATCH  {{rootAPI}}/api/v1/borrow
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImlAei5jb20iLCJpYXQiOjE3NTIzMzYwMTksImV4cCI6MTc1MjQyMjQxOX0.knAw95LCELSYS7uxBDQLCLenksl-t9VesvOdUMeEjLM
+
+{
+  "_id":"687287c7cf717912753640ca" 
+}
+
 

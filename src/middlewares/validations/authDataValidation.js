@@ -7,6 +7,7 @@ import {
   PASSWORD_REQ,
   PHONE_REQ,
   SESSION_REQ,
+  SHORT_STR,
   TOKEN_REQ,
 } from "./joiConst.js";
 import { validateData } from "./joiVaidation.js";
@@ -18,6 +19,7 @@ export const newUserDataValidation = (req, res, next) => {
     email: EMAIL_REQ,
     phone: PHONE_REQ,
     password: PASSWORD_REQ,
+    role: SHORT_STR,
   };
   validateData({ req, res, next, obj });
 };
