@@ -48,7 +48,7 @@ POST  {{rootAPI}}/api/v1/auth/otp
 Content-Type: application/json
 
 {
-    "email": "i@z.com"
+    "email": "kharelsubekshya1@gmail.com"
 }
 
 ### reset password
@@ -106,10 +106,39 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImlAei5jb
 ### return book
 PATCH  {{rootAPI}}/api/v1/borrow
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImlAei5jb20iLCJpYXQiOjE3NTIzMzYwMTksImV4cCI6MTc1MjQyMjQxOX0.knAw95LCELSYS7uxBDQLCLenksl-t9VesvOdUMeEjLM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJpYXQiOjE3NTI2NTA0MDgsImV4cCI6MTc1MjczNjgwOH0.YeGKEz9FRhXNLSVYPuaALRtqRxO66VKvOOI5lqVlUhM
 
 {
-  "_id":"687287c7cf717912753640ca" 
+  "_id": "6877536225306628b93769e6"
 }
 
 
+###=======================review section
+### post review
+POST  {{rootAPI}}/api/v1/review
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJpYXQiOjE3NTI2NTY4OTQsImV4cCI6MTc1Mjc0MzI5NH0.lhadT2jXtfNgUwk_DMZvcvUPsXTmxgR7Zts078snyig
+
+{
+  "bookId":"686a699be8bd98d37c6d035c",
+  "borrowId":"6872489a162360ad89cc6d9b", 
+  "title":"review book",
+  "reviewMessage":"i have review this book, and very good",
+  "rating":3.4
+}
+
+### Fetch all reviews 
+GET {{rootAPI}}/api/v1/review
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImlAei5jb20iLCJpYXQiOjE3NTI2NjU3ODMsImV4cCI6MTc1Mjc1MjE4M30.iO8uXYbmG9A-xOG--FUk3YmrZu8abnhZT0KgKwxPIoE
+
+
+### update reviews 
+PATCH  {{rootAPI}}/api/v1/review/admin
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImlAei5jb20iLCJpYXQiOjE3NTM1MzI5NzAsImV4cCI6MTc1MzYxOTM3MH0.tG21wjqKqmmJzcSuJ92KyzrrckLJHtAjGBtlw6OqDkc
+
+{
+  "_id":"6877647a7cd46949df04e6ec", 
+  "isApproved": true
+}

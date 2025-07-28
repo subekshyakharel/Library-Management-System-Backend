@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+const { Schema } = mongoose;
 const bookSchema = new mongoose.Schema(
   {
     title: {
@@ -59,7 +60,7 @@ const bookSchema = new mongoose.Schema(
         type: String,
       },
       adminId: {
-        type: mongoose.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         required: true,
       },
     },
@@ -68,7 +69,7 @@ const bookSchema = new mongoose.Schema(
         type: String,
       },
       adminId: {
-        type: mongoose.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         required: true,
       },
     },

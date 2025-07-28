@@ -75,8 +75,8 @@ export const returnBookController = async (req, res, next) => {
     const { _id } = req.userInfo;
 
     const filter = {
-      _id: new ObjectId(req.body._id), // ✅ convert string to ObjectId
-      userId: new ObjectId("6871d17a0d9894eeba211081"), // ✅ convert to ObjectId
+      _id: req.body._id, // ✅ convert string to ObjectId
+      userId: _id, // ✅ convert to ObjectId
     };
 
     const obj = {

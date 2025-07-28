@@ -18,10 +18,12 @@ import authRoute from "./src/routes/authRoute.js";
 import userRoute from "./src/routes/userRoute.js";
 import bookRoute from "./src/routes/bookRoute.js";
 import borrowRoute from "./src/routes/borrowRoute.js";
+import reviewRoute from "./src/routes/reviewRoute.js";
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/users", userRoute);
 app.use("/api/v1/books", bookRoute);
 app.use("/api/v1/borrow", borrowRoute);
+app.use("/api/v1/review", reviewRoute);
 
 //server status
 import { responseClient } from "./src/middlewares/responseClient.js";

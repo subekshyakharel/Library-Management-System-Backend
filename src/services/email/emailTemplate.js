@@ -1,6 +1,6 @@
 export const userActivationUrlEmailTemplate = async ({ email, name, url }) => {
   return {
-    from: `"Local Library" <${process.env.SMTP_EMAIL}>`, //sender address
+    from: `"Local Library" <${email}>`, //sender address
     to: email, //list of reciever address
     subject: "Action Required- Activate your new account", //subject line
     text: `Hello ${name} follow the link to activate your account.${url}`, // plain‑text body

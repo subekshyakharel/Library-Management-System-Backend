@@ -8,7 +8,7 @@ import {
   updateBook,
 } from "../models/book/BookModel.js";
 import slugify from "slugify";
-import { deleteFile, deleteUploadedFiles } from "../utils/fileutil.js";
+import { deleteFile } from "../utils/fileutil.js";
 
 export const insertNewBook = async (req, res, next) => {
   try {
@@ -53,7 +53,31 @@ export const insertNewBook = async (req, res, next) => {
 
 export const getAllPublicBooksController = async (req, res, next) => {
   try {
-    const books = await getAllPublicBooks();
+    let books = await getAllPublicBooks(); // Fetch active books only
+    const today = new Date();
+
+    const booksToUpdate = books.filter(
+      (book) =>
+        book.expectedAvailable &&
+        new Date(book.expectedAvailable) <= today &&
+        !book.available
+    );
+
+    if (booksToUpdate.length) {
+      await Promise.all(
+        booksToUpdate.map((book) =>
+          updateBook({
+            _id: book._id,
+            available: true,
+            expectedAvailable: null,
+          })
+        )
+      );
+
+      // Re-fetch after updating
+      books = await getAllPublicBooks();
+    }
+
     responseClient({
       req,
       res,
@@ -65,16 +89,35 @@ export const getAllPublicBooksController = async (req, res, next) => {
     next(error);
   }
 };
+
 export const getSinglePublicBooksController = async (req, res, next) => {
   try {
     const { slug } = req.params;
-    const payload = await getABook({ slug, status: "active" });
+    let book = await getABook({ slug, status: "active" });
+
+    if (
+      book &&
+      book.expectedAvailable &&
+      new Date(book.expectedAvailable) <= new Date() &&
+      !book.available
+    ) {
+      // Update the single book
+      await updateBook({
+        _id: book._id,
+        available: true,
+        expectedAvailable: null,
+      });
+
+      // Re-fetch updated book
+      book = await getABook({ slug, status: "active" });
+    }
+
     responseClient({
       req,
       res,
       next,
       message: "Here are the books which are active",
-      payload,
+      payload: book,
     });
   } catch (error) {
     next(error);
@@ -83,12 +126,38 @@ export const getSinglePublicBooksController = async (req, res, next) => {
 
 export const getAllBooksController = async (req, res, next) => {
   try {
-    const books = await getAllBooks();
+    let books = await getAllBooks();
+    const today = new Date();
+
+    // Filter books that need to be updated
+    const booksToUpdate = books.filter(
+      (book) =>
+        book.expectedAvailable &&
+        new Date(book.expectedAvailable) <= today &&
+        !book.available
+    );
+
+    // Update those books
+    if (booksToUpdate.length) {
+      await Promise.all(
+        booksToUpdate.map((book) =>
+          updateBook({
+            _id: book._id,
+            available: true,
+            expectedAvailable: null,
+          })
+        )
+      );
+
+      // Re-fetch updated books
+      books = await getAllBooks();
+    }
+
     responseClient({
       req,
       res,
       next,
-      message: "Here are the all books",
+      message: "Here are all books",
       payload: books,
     });
   } catch (error) {
